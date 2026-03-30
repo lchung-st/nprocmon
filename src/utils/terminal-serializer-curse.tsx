@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from 'react-curse'
 import type { TextProps } from 'react-curse/components/Text'
 import type { Color, Modifier } from 'react-curse/screen'
-import type xterm from 'xterm-headless'
+import type xterm from '@xterm/headless'
 import EmulatedCursor from '../components/emulated-cursor.js'
 
 function padStart(

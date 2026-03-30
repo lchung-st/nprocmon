@@ -1,4 +1,4 @@
-import type xterm from 'xterm-headless'
+import type xterm from '@xterm/headless'
 
 function getFgStyle(cell: xterm.IBufferCell) {
     const color = cell.getFgColor()

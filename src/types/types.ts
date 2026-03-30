@@ -1,5 +1,5 @@
 import type { IPty } from '@lydell/node-pty'
-import type xterm from 'xterm-headless'
+import type xterm from '@xterm/headless'
 
 export type RestartType = 'always' | 'error' | 'never'
 

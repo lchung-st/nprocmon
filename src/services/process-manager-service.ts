@@ -12,7 +12,7 @@ import {
     type ProcessEventListeners,
     type InferFromArray,
 } from '../types/types.js'
-import xterm from 'xterm-headless'
+import xterm from '@xterm/headless'
 import terminalSerializer from '../utils/terminal-serializer-curse.js'
 import type { AppDispatch } from '../store.js'
 import {
