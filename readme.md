@@ -5,16 +5,17 @@ Execute multiple tasks in parallel and start, stop, or restart them easily using
 ![image](https://github.com/dlacaille/nprocmon/assets/6683854/bebfc08f-449c-4259-bda8-24541542f763)
 
 ## Install
-
 ```bash
-$ npm install --global nprocmon
+$ npm install
+$ npm run build
+$ npm run postinstall
 ```
 
-## CLI
+## CLI - Use PowerShell on Windows systems
 
 ```
 Usage
-  $ nprocmon
+  $ node ./dist/cli.js
 
 Options
   --config       The configuration file to use
