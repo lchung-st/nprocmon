@@ -1,8 +1,218 @@
 options:
   exitWhenAllStopped: 'onSuccess'
 procs:
-  - name: HelloWorld
+  # ----------------------------
+  # APR
+  # ----------------------------
+
+  apr-api:
+    name: Apr.Api
     autostart: true
-    cmd: ['cmd.exe', 'echo', 'hello', 'world!']
-  - name: nvim
-    cmd: 'nvim.exe'
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\apr-api\AprApi
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+
+  apr-reaccom-admin:
+    name: Apr.ReaccomAdmin
+    autostart: true
+    cmd:
+      - C:\Program Files (x86)\IIS Express\iisexpress.exe
+      - /config:C:/dev/monorepo/apr-core/.idea/config/applicationhost.config
+      - /site:ReaccomAdmin
+      - /apppool:Clr4IntegratedAppPool
+    env:
+      IsSimulatedCommitResponsesAllowed: true
+
+  apr-backend-api:
+    name: Apr.BackendApi
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.Ui.BackendApi
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://localhost:50598;http://localhost:50599
+
+  apr-disrupted-flight-model-updater:
+    name: Apr.DisruptedFlightModelUpdater
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.Reaccom.DisruptedFlightModelUpdater
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+      APP_APPSETTING_RunAsHotelEligibilityProcessedStatus: false
+      APP_APPSETTING_RunAsSolutionExpiryStatusManager: false
+
+  apr-disrupted-flight-status-updater:
+    name: Apr.DisruptedFlightStatusManager
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.Reaccom.DisruptedFlightStatusManager
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+
+  apr-flight-cache-updater:
+    name: Apr.FlightCacheUpdater
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\FlightCacheUpdater
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+
+  apr-flight-view-model-job-scheduler:
+    name: Apr.FlightViewModelJobScheduler
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.Reaccom.UI.FlightViewModelJobScheduler
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+
+  apr-flight-view-model-aggregator:
+    name: Apr.FlightViewModelAggregator
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.Reaccom.UI.FlightViewModelAggregator
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+
+  apr-flight-view-model-cleaner:
+    name: Apr.FlightViewModelCleaner
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.Reaccom.UI.FlightViewModelCleaner
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+
+  apr-frontend:
+    name: Apr.Frontend
+    autostart: true
+    cmd: ["npm.cmd", "run", "dev"]
+    cwd: C:\dev\monorepo\apr-frontend
+
+  apr-pnr-cache-updater:
+    name: Apr.PNRCacheUpdater
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\PNRCacheUpdater
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+
+  apr-reaccom-engine:
+    name: Apr.ReaccomEngine (1)
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\Engine\ReaccomEngine
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+      APP_APPSETTING_server.urls: "http://*:5002"
+      APP_Serilog__WriteTo__1__Args__path: "C:/Program Files/SolTek/Logs/ReaccomEngine/log_1.txt"
+
+  apr-reaccom-engine-2:
+    name: Apr.ReaccomEngine (2)
+    autostart: false
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\Engine\ReaccomEngine
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+      APP_APPSETTING_server.urls: "http://*:5003"
+      APP_Serilog__WriteTo__1__Args__path: "C:/Program Files/SolTek/Logs/ReaccomEngine/log_2.txt"
+
+  apr-reaccom-manager:
+    name: Apr.ReaccomManager
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\ReaccomManager
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+
+  apr-core-solution-api:
+    name: Apr.CoreSolutionApi
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.AprCoreSolutionApi
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://localhost:5562
+
+  # ----------------------------
+  # SolPub
+  # ----------------------------
+
+  solpub-sabre-standard:
+    name: SolPub.SabreStandard
+    autostart: false
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-publish\SolPub\Clients\SabreStandard\SolTek.SolPub.SabreStandard
+    env:
+      SOLPUB_ENVIRONMENT: Development
+      SOLPUB_XX_SimulationConfig__SimulateCommitResponse: true
+      SOLPUB_XX_SimulationConfig__SuccessPercentage: 100
+      SOLPUB_XX_SimulationConfig__PartialPercentage: 0
+      SOLPUB_XX_SimulationConfig__ErrorPercentage: 0
+      SOLPUB_XX_Serilog__WriteTo__0__Args__formatter: ""
+      SOLPUB_XX_Serilog__WriteTo__0__Args__outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+      SOLPUB_XX_Serilog__WriteTo__1__Args__path: "/Program Files/SolTek/Logs/SolPub.SabreStandard/log.txt"
+      SOLPUB_XX_Serilog__WriteTo__2__Args__path: "/Program Files/SolTek/Logs/SolPub.SabreStandard/error.txt"
+
+  # ----------------------------
+  # FederatedSecurity
+  # ----------------------------
+
+  fss-mock:
+    name: FSS.Mock
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\SolTek.FederatedSecurity.Mock
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+
+  # ----------------------------
+  # UI
+  # ----------------------------
+
+  ui-apr-ui:
+    name: Ui.AprUi
+    autostart: true
+    cmd: ["npm.cmd", "run", "dev"]
+    cwd: C:\dev\monorepo\ui\SolTek.Apr.Ui\app
+
+  ui-proxy:
+    name: Ui.Proxy
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\ui\SolTek.Apr.Ui\SolTek.Apr.Ui.Proxy
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://localhost:5189
+
+  ui-bff:
+    name: Ui.BackendForFrontend
+    autostart: true
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\ui\SolTek.Apr.Ui\SolTek.Apr.Ui.BackendForFrontend
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://localhost:7200
+
+  # ----------------------------
+  # Hotels
+  # ----------------------------
+
+  hotels-eligibility:
+    name: Hotels.Eligibility
+    autostart: false
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-hotels\SolTek.Hotel.Eligibility
+    env:
+      DEPLOYED_ENVIRONMENT: Development
+
+  # ----------------------------
+  # Tools
+  # ----------------------------
+
+  db-migrator:
+    name: Tools.DbMigratorMongo
+    cmd: ["dotnet.exe", "run", "--no-build"]
+    cwd: C:\dev\monorepo\apr-core\DbMigratorMongo
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
