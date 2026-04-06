@@ -13,6 +13,9 @@ $ npm run postinstall
 
 ## CLI - Use PowerShell on Windows systems
 
+### 1. Update nprocmon.yaml with the correct path to your code repos
+
+
 ```
 Usage
   $ node ./dist/cli.js
@@ -33,3 +36,4 @@ Examples
   $ nprocmon -e build*
   Excludes all processes starting with build
 ```
+## 
